@@ -3,10 +3,11 @@ import API from "../utils/API";
 import searchBooks from "../utils/searchBooks";
 import Jumbotron from "../components/Jumbotron";
 import { Col, Row, Container } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
+import SearchForm from "../components/Form";
 
 class Books extends Component {
   state = {
+    search: "",
     books: []
   };
 
@@ -14,10 +15,24 @@ class Books extends Component {
 //     this.loadBooks();
 //   }
 
-  loadBooks = (term) => {
-    searchBooks(term)
+  loadBooks = query => {
+    searchBooks.searchBooks(query)
       .then(res => this.setState({ books: res.data }))
       .catch(err => console.log(err));
+  };
+
+  handleInputChange = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  // When the form is submitted, search the OMDB API for the value of `this.state.search`
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.loadBooks(this.state.search);
   };
 
   render() {
@@ -27,10 +42,11 @@ class Books extends Component {
           <Col size="md-6">
             <Jumbotron>
               <h1>Search for the book you want to investigate!</h1>
-              <form>
-                <Input name="title" placeholder="Title" />
-                <FormBtn>Search Book</FormBtn>
-                </form>
+              <SearchForm
+                value={this.state.search}
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+              />
             </Jumbotron>
           </Col>
           {/* <Col size="md-6 sm-12">
