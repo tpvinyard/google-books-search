@@ -23,6 +23,14 @@ class Books extends Component {
       .catch(err => console.log(err));
   };
 
+  saveBook = (data) => {
+    API.saveBook({
+      data
+    })
+      .catch(err => console.log(err));
+  }
+  
+
   handleInputChange = event => {
     const value = event.target.value;
     const name = event.target.name;
@@ -58,12 +66,14 @@ class Books extends Component {
             {this.state.books.length ? (
               <Row>
                 {this.state.books.map(book => (
-                  <Card key={book._id}
+                  <Card 
+                    key={book._id}
                     title={book.volumeInfo.title}
                     author={book.volumeInfo.authors[0]}
                     synopsis={book.volumeInfo.description}
                     image={book.volumeInfo.imageLinks.thumbnail}
                     link={book.accessInfo.webReaderLink}
+                    onClick={() => this.saveBook({title: book.volumeInfo.title, author: book.volumeInfo.authors[0], synopsis: book.volumeInfo.description, image: book.volumeInfo.imageLinks.thumbnail, link: book.accessInfo.webReaderLink})}
                   />
                 ))}
               </Row>
