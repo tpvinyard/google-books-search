@@ -12,7 +12,7 @@ class Books extends Component {
   state = {
     search: "",
     books: [],
-    hasBook: false
+    hasNoBook: false
   };
 
 //   componentDidMount() {
@@ -28,7 +28,7 @@ class Books extends Component {
       });
     } else {
       this.setState({
-        hasBook: true
+        hasNoBook: true
       });
     }
   }
@@ -37,6 +37,7 @@ class Books extends Component {
     console.log(book);
     API.saveBook(book)
       .then(res => {
+        console.log(res.data);
         const currentBooks = this.state.books;
         const filterBooks = currentBooks.filter(book => book.id !== res.data.id);
         this.setState({
@@ -47,22 +48,33 @@ class Books extends Component {
   }
 
   render() {
+    if (this.state.hasNoBook) {
+      return (
+        <div>
+          <Jumbotron>
+            <h1>Search for the book you want to investigate!</h1>
+            <p className="lead">
+              <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
+              <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+            </p>
+          </Jumbotron>
+          <Container>
+            <Link to="/">No results - click here to search again.</Link>
+          </Container>
+        </div>
+      )
+    }
     return (
       <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>Search for the book you want to investigate!</h1>
-              <p className="lead">
-                <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
-                <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
-              </p>
-            </Jumbotron>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
+        <Jumbotron>
+          <h1>Search for the book you want to investigate!</h1>
+          <p className="lead">
+            <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
+            <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+          </p>
+        </Jumbotron>
+        <Container>
+          <Col size="md-12">
               <List>
               {this.state.books.map((book, index) => {
                 const { volumeInfo: { imageLinks = {} } = {}} = book;
@@ -105,7 +117,7 @@ class Books extends Component {
               )})}
             </List>
           </Col>
-        </Row>
+        </Container>
       </Container>
     );
   }

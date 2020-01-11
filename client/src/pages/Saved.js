@@ -39,11 +39,27 @@ class Saved extends Component {
 
   deleteBook = id => {
     API.deleteBook(id)
-      .then(res => this.loadBooks())
+      .then(res => this.loadSavedBooks())
       .catch(err => console.log(err));
   };
 
   render() {
+    if (this.state.noResults) {
+      return (
+        <div>
+          <Jumbotron>
+            <h1>Search for the book you want to investigate!</h1>
+            <p className="lead">
+              <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
+              <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+            </p>
+          </Jumbotron>
+          <Container>
+            <Link to="/">No results - click here to search again.</Link>
+          </Container>
+        </div>
+      )
+    }
     return (
       <div>
         <Jumbotron>
