@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import API from "../utils/API";
-import searchBooks from "../utils/searchBooks";
 import Jumbotron from "../components/Jumbotron";
 import { Col, Row, Container } from "../components/Grid";
-import SearchForm from "../components/Form";
+import { FormBtn, Input, Label } from "../components/Form";
 import SaveBtn from "../components/SaveBtn";
 import { List, ListItem } from "../components/List";
 // import Card from "../components/Card";
@@ -19,11 +19,19 @@ class Books extends Component {
 //     this.loadBooks();
 //   }
 
-  loadBooks = query => {
-    searchBooks.searchBooks(query)
-      .then(res => this.setState({ books: res.data.items }))
-      .catch(err => console.log(err));
-  };
+  componentDidMount() {
+    const data = this.props.location.data
+    if (data && data.results.length > 0) {
+      this.setState({
+        books: data.results.filter((value, index) => index < 5),
+        search: "_blank"
+      });
+    } else {
+      this.setState({
+        hasBook: true
+      });
+    }
+  }
 
   saveBook = book => {
     console.log(book);
@@ -37,21 +45,6 @@ class Books extends Component {
       })
       .catch(err => err.response.data);
   }
-  
-
-  handleInputChange = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  // When the form is submitted, search the Google Books API for the value of `this.state.search`
-  handleFormSubmit = event => {
-    event.preventDefault();
-    this.loadBooks(this.state.search);
-  };
 
   render() {
     return (
@@ -60,11 +53,10 @@ class Books extends Component {
           <Col size="md-6">
             <Jumbotron>
               <h1>Search for the book you want to investigate!</h1>
-              <SearchForm
-                value={this.state.search}
-                handleInputChange={this.handleInputChange}
-                handleFormSubmit={this.handleFormSubmit}
-              />
+              <p className="lead">
+                <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
+                <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+              </p>
             </Jumbotron>
           </Col>
           <Col size="md-6 sm-12">
@@ -102,7 +94,8 @@ class Books extends Component {
                         author: book.volumeInfo.authors[0],
                         description: book.volumeInfo.description,
                         image: book.volumeInfo.imageLinks.smallThumbnail,
-                        link: book.volumeInfo.infoLink
+                        link: book.volumeInfo.infoLink,
+                        _id: book.id
                       })}
                     >
                       Save
