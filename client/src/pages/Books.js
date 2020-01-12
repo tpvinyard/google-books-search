@@ -34,10 +34,9 @@ class Books extends Component {
   }
 
   saveBook = book => {
-    console.log(book);
     API.saveBook(book)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         const currentBooks = this.state.books;
         const filterBooks = currentBooks.filter(book => book.id !== res.data.id);
         this.setState({
