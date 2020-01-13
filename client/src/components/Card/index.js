@@ -9,7 +9,6 @@ export function Card(props) {
                 <h5 className="card-title">{props.title} by {props.author}</h5>
                 <p className="card-text">{props.synopsis}</p>
                 <a href={props.link} className="btn btn-primary">Visit</a>
-                <button type="button" onClick={props.onClick} className="btn btn-primary">Save</button>
             </div>
         </div>
     );
