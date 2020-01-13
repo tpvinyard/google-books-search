@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { List, ListItem } from "../components/List";
 import API from "../utils/API";
 import Jumbotron from "../components/Jumbotron";
-import { Col, Row, Container } from "../components/Grid";
-import SearchForm from "../components/Form";
+import { Container } from "../components/Grid";
 import SaveBtn from "../components/SaveBtn";
 
 class Saved extends Component {
@@ -48,10 +47,10 @@ class Saved extends Component {
       return (
         <div>
           <Jumbotron>
-            <h1>Search for the book you want to investigate!</h1>
+            <h1 style={{color: "white"}}>Google Books Search with React.js</h1>
             <p className="lead">
-              <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
-              <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+              <Link className="btn btn-dark btn-lg" to="/" role="button">New Search</Link>
+              <Link className="btn btn-dark btn-lg" to="/saved" role="button" style={{marginLeft: 20}}>Saved Books</Link>
             </p>
           </Jumbotron>
           <Container>
@@ -63,10 +62,10 @@ class Saved extends Component {
     return (
       <div>
         <Jumbotron>
-            <h1>Search for the book you want to investigate!</h1>
+            <h1 style={{color: "white"}}>Google Books Search with React.js</h1>
               <p className="lead">
-                <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
-                <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+                <Link className="btn btn-dark btn-lg" to="/" role="button">New Search</Link>
+                <Link className="btn btn-dark btn-lg" to="/saved" role="button" style={{marginLeft: 20}}>Saved Books</Link>
               </p>
         </Jumbotron>
         <Container>
